@@ -1,8 +1,8 @@
-module Attributes exposing (view)
+module Abilities exposing (view)
 
-import Html exposing (Html, div, input, text)
-import Html.Attributes exposing (class, style, type_, value)
-import Html.Events exposing (onInput)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Model exposing (Model, Msg(..))
 
 
@@ -23,8 +23,8 @@ mainStyle =
     ]
 
 
-attributeStyle : Style
-attributeStyle =
+abilityStyle : Style
+abilityStyle =
     [ ( "border", "2px solid black" )
     , ( "position", "relative" )
     , ( "width", "80px" )
@@ -38,22 +38,22 @@ attributeStyle =
     ]
 
 
-attributeModStyle : Style
-attributeModStyle =
+abilityModStyle : Style
+abilityModStyle =
     [ ( "font-size", "32px" )
     , ( "line-height", "50px" )
     ]
 
 
-attributeNameStyle : Style
-attributeNameStyle =
+abilityNameStyle : Style
+abilityNameStyle =
     [ ( "font-size", "10px" )
     , ( "margin-top", "4px" )
     ]
 
 
-attributeScoreStyle : Style
-attributeScoreStyle =
+abilityScoreStyle : Style
+abilityScoreStyle =
     [ ( "display", "block" )
     , ( "position", "absolute" )
     , ( "bottom", "-14px" )
@@ -77,30 +77,30 @@ toPosString int =
 view : Model -> Html Msg
 view model =
     div [ style mainStyle ]
-        [ viewAttribute "STRENGTH" model.str ChangeStr
-        , viewAttribute "DEXTERITY" model.dex ChangeDex
-        , viewAttribute "CONSTITUTION" model.con ChangeCon
-        , viewAttribute "INTELLIGENCE" model.int ChangeInt
-        , viewAttribute "WISDOM" model.wis ChangeWis
-        , viewAttribute "CHARISMA" model.cha ChangeCha
+        [ viewAbility "STRENGTH" model.str ChangeStr
+        , viewAbility "DEXTERITY" model.dex ChangeDex
+        , viewAbility "CONSTITUTION" model.con ChangeCon
+        , viewAbility "INTELLIGENCE" model.int ChangeInt
+        , viewAbility "WISDOM" model.wis ChangeWis
+        , viewAbility "CHARISMA" model.cha ChangeCha
         ]
 
 
-viewAttribute : String -> Int -> (String -> Msg) -> Html Msg
-viewAttribute label attr msg =
+viewAbility : String -> Int -> (String -> Msg) -> Html Msg
+viewAbility label attr msg =
     div
-        [ style attributeStyle ]
+        [ style abilityStyle ]
         [ div
-            [ style attributeNameStyle ]
+            [ style abilityNameStyle ]
             [ text label
             ]
         , div
-            [ style attributeModStyle ]
+            [ style abilityModStyle ]
             [ text <| toPosString <| mod attr
             ]
         , input
             [ type_ "number"
-            , style attributeScoreStyle
+            , style abilityScoreStyle
             , value <| toString attr
             , onInput msg
             ]

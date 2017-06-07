@@ -31,13 +31,13 @@ model =
     }
 
 
-toIntWithDefault : String -> Int -> Int
-toIntWithDefault str int =
+(#|) : String -> Int -> Int
+(#|) str default =
     let
         n =
             String.toInt str
                 |> Result.toMaybe
-                |> Maybe.withDefault int
+                |> Maybe.withDefault default
     in
         if n < 0 then
             0
@@ -51,19 +51,19 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         ChangeStr str ->
-            { model | str = toIntWithDefault str model.str }
+            { model | str = str #| model.str }
 
         ChangeDex dex ->
-            { model | dex = toIntWithDefault dex model.dex }
+            { model | dex = dex #| model.dex }
 
         ChangeCon con ->
-            { model | con = toIntWithDefault con model.con }
+            { model | con = con #| model.con }
 
         ChangeInt int ->
-            { model | int = toIntWithDefault int model.int }
+            { model | int = int #| model.int }
 
         ChangeWis wis ->
-            { model | wis = toIntWithDefault wis model.wis }
+            { model | wis = wis #| model.wis }
 
         ChangeCha cha ->
-            { model | cha = toIntWithDefault cha model.cha }
+            { model | cha = cha #| model.cha }

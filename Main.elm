@@ -2,16 +2,18 @@ module Main exposing (..)
 
 import Html exposing (Html, div)
 import Model exposing (Msg, Model, model, update)
-import Attributes
+import Abilities
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ Attributes.view model
-        ]
+    Abilities.view model
 
 
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram { model = model, view = view, update = update }
+    Html.beginnerProgram
+        { model = model
+        , view = view
+        , update = update
+        }
