@@ -18,6 +18,8 @@ mod attr =
 mainStyle : Style
 mainStyle =
     [ ( "display", "inline-block" )
+    , ( "background-color", "#ddd" )
+    , ( "border-radius", "8px" )
     ]
 
 
@@ -25,26 +27,28 @@ attributeStyle : Style
 attributeStyle =
     [ ( "border", "2px solid black" )
     , ( "position", "relative" )
-    , ( "width", "60px" )
-    , ( "height", "60px" )
+    , ( "width", "80px" )
+    , ( "height", "80px" )
     , ( "text-align", "center" )
     , ( "margin", "10px" )
+    , ( "background-color", "white" )
     , ( "font-family", "sans-serif" )
+    , ( "border-radius", "4px" )
     , ( "margin-bottom", "25px" )
     ]
 
 
 attributeModStyle : Style
 attributeModStyle =
-    [ ( "font-size", "30px" )
+    [ ( "font-size", "32px" )
+    , ( "line-height", "50px" )
     ]
 
 
 attributeNameStyle : Style
 attributeNameStyle =
-    [ ( "font-size", "12px" )
-    , ( "font-weight", "bold" )
-    , ( "color", "gray" )
+    [ ( "font-size", "10px" )
+    , ( "margin-top", "4px" )
     ]
 
 
@@ -52,8 +56,8 @@ attributeScoreStyle : Style
 attributeScoreStyle =
     [ ( "display", "block" )
     , ( "position", "absolute" )
-    , ( "bottom", "-16px" )
-    , ( "left", "8px" )
+    , ( "bottom", "-14px" )
+    , ( "left", "18px" )
     , ( "width", "30px" )
     , ( "padding-left", "10px" )
     , ( "height", "20px" )
@@ -73,12 +77,12 @@ toPosString int =
 view : Model -> Html Msg
 view model =
     div [ style mainStyle ]
-        [ viewAttribute "STR" model.str ChangeStr
-        , viewAttribute "DEX" model.dex ChangeDex
-        , viewAttribute "CON" model.con ChangeCon
-        , viewAttribute "INT" model.int ChangeInt
-        , viewAttribute "WIS" model.wis ChangeWis
-        , viewAttribute "CHA" model.cha ChangeCha
+        [ viewAttribute "STRENGTH" model.str ChangeStr
+        , viewAttribute "DEXTERITY" model.dex ChangeDex
+        , viewAttribute "CONSTITUTION" model.con ChangeCon
+        , viewAttribute "INTELLIGENCE" model.int ChangeInt
+        , viewAttribute "WISDOM" model.wis ChangeWis
+        , viewAttribute "CHARISMA" model.cha ChangeCha
         ]
 
 
