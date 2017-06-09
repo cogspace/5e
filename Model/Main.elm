@@ -7,7 +7,7 @@ module Model.Main
         , update
         )
 
-import Model.Abilities
+import Model.Abilities as Abilities
     exposing
         ( AbilityScores
         , SaveProfs
@@ -48,8 +48,8 @@ model =
     , race = Human
     , class = Fighter
     , profBonus = 1
-    , abilities = Model.Abilities.base
-    , saveProfs = (Model.Abilities.all False)
+    , abilities = Abilities.base
+    , saveProfs = (Abilities.all False)
     }
 
 
@@ -84,7 +84,7 @@ update msg model =
                     model.abilities
 
                 new =
-                    Model.Abilities.update old ability val
+                    Abilities.update old ability val
             in
                 { model | abilities = new }
 
@@ -97,9 +97,9 @@ update msg model =
                     model.saveProfs
 
                 prof =
-                    Model.Abilities.value old ability
+                    Abilities.value old ability
 
                 new =
-                    Model.Abilities.update old ability (not prof)
+                    Abilities.update old ability (not prof)
             in
                 { model | saveProfs = new }
