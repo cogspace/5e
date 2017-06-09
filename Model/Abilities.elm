@@ -15,12 +15,12 @@ module Model.Abilities
 
 
 type Ability
-    = Str
-    | Dex
-    | Con
-    | Int
-    | Wis
-    | Cha
+    = Strength
+    | Dexterity
+    | Constitution
+    | Intelligence
+    | Wisdom
+    | Charisma
 
 
 type alias Abilities a =
@@ -75,64 +75,64 @@ mod attr =
 value : Abilities a -> Ability -> a
 value model ability =
     case ability of
-        Str ->
+        Strength ->
             model.str
 
-        Dex ->
+        Dexterity ->
             model.dex
 
-        Con ->
+        Constitution ->
             model.con
 
-        Int ->
+        Intelligence ->
             model.int
 
-        Wis ->
+        Wisdom ->
             model.wis
 
-        Cha ->
+        Charisma ->
             model.cha
 
 
 name : Ability -> String
 name ability =
     case ability of
-        Str ->
+        Strength ->
             "strength"
 
-        Dex ->
+        Dexterity ->
             "dexterity"
 
-        Con ->
+        Constitution ->
             "constitution"
 
-        Int ->
+        Intelligence ->
             "intelligence"
 
-        Wis ->
+        Wisdom ->
             "wisdom"
 
-        Cha ->
+        Charisma ->
             "charisma"
 
 
 update : Abilities a -> Ability -> a -> Abilities a
 update abilities ability val =
     case ability of
-        Str ->
+        Strength ->
             { abilities | str = val }
 
-        Dex ->
+        Dexterity ->
             { abilities | dex = val }
 
-        Con ->
+        Constitution ->
             { abilities | con = val }
 
-        Int ->
+        Intelligence ->
             { abilities | int = val }
 
-        Wis ->
+        Wisdom ->
             { abilities | wis = val }
 
-        Cha ->
+        Charisma ->
             { abilities | cha = val }

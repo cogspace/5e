@@ -6,7 +6,7 @@ import Html.Events exposing (onClick)
 import Model.Main exposing (Model, Msg(..))
 import Model.Abilities as Abilities exposing (SaveProfs, Ability(..))
 import Style exposing (Style)
-import Utils exposing (toModString, toTitle)
+import Utils exposing (toModString, toTitle, checkbox)
 
 
 mainStyle : Style
@@ -41,11 +41,8 @@ titleStyle =
 viewProf : Model -> Ability -> Html Msg
 viewProf model ability =
     let
-        abilities =
-            model.abilities
-
-        saveProfs =
-            model.saveProfs
+        { abilities, saveProfs } =
+            model
 
         name =
             Abilities.name ability
@@ -60,12 +57,12 @@ viewProf model ability =
                 0
 
         mod =
-            Abilities.modifier abilities ability + profBonus
+            Abilities.modifier abilities ability
+                + profBonus
     in
         div [ style profStyle ]
-            [ input
-                [ type_ "checkbox"
-                , checked prof
+            [ checkbox
+                [ checked prof
                 , onClick (ToggleSaveProf ability)
                 ]
                 []
@@ -78,12 +75,12 @@ viewProf model ability =
 view : Model -> Html Msg
 view model =
     div [ style mainStyle ]
-        [ viewProf model Str
-        , viewProf model Dex
-        , viewProf model Con
-        , viewProf model Int
-        , viewProf model Wis
-        , viewProf model Cha
+        [ viewProf model Strength
+        , viewProf model Dexterity
+        , viewProf model Constitution
+        , viewProf model Intelligence
+        , viewProf model Wisdom
+        , viewProf model Charisma
         , div [ style titleStyle ]
             [ text "SAVING THROWS" ]
         ]

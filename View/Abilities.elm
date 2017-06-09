@@ -98,10 +98,10 @@ viewAbility model ability =
 view : AbilityScores -> Html Msg
 view abilities =
     div [ style mainStyle ]
-        [ viewAbility abilities Str
-        , viewAbility abilities Dex
-        , viewAbility abilities Con
-        , viewAbility abilities Int
-        , viewAbility abilities Wis
-        , viewAbility abilities Cha
+        [ viewAbility abilities Strength
+        , viewAbility abilities Dexterity
+        , viewAbility abilities Constitution
+        , viewAbility abilities Intelligence
+        , viewAbility abilities Wisdom
+        , viewAbility abilities Charisma
         ]

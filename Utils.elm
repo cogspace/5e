@@ -1,6 +1,8 @@
 module Utils exposing (..)
 
 import Char
+import Html exposing (Html, Attribute, input)
+import Html.Attributes exposing (type_)
 
 
 parseInt : String -> Int
@@ -26,3 +28,10 @@ toTitle string =
 
         Nothing ->
             ""
+
+
+checkbox : List (Attribute msg) -> List (Html msg) -> Html msg
+checkbox attrs children =
+    input
+        ((type_ "checkbox") :: attrs)
+        children
