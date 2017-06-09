@@ -4,7 +4,7 @@ import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (type_, style, checked)
 import Html.Events exposing (onClick)
 import Model.Main exposing (Model, Msg(..))
-import Model.Abilities as Abilities exposing (SaveProfs, Ability(..))
+import Model.Abilities as Abilities exposing (Ability)
 import Style exposing (Style)
 import Utils exposing (toModString, toTitle, checkbox)
 
