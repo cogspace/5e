@@ -4,6 +4,8 @@ module Model.Abilities
         , AbilityScores
         , SaveProfs
         , Ability(..)
+        , abilities
+        , map
         , all
         , zero
         , base
@@ -39,6 +41,22 @@ type alias AbilityScores =
 
 type alias SaveProfs =
     Abilities Bool
+
+
+abilities : List Ability
+abilities =
+    [ Strength
+    , Dexterity
+    , Constitution
+    , Intelligence
+    , Wisdom
+    , Charisma
+    ]
+
+
+map : (Ability -> b) -> List b
+map func =
+    List.map func abilities
 
 
 all : a -> Abilities a

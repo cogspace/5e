@@ -4,7 +4,7 @@ import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (value, style, type_)
 import Html.Events exposing (onInput)
 import Model.Main exposing (Model, Msg(..))
-import Model.Abilities exposing (AbilityScores, Ability(..))
+import Model.Abilities as Abilities exposing (AbilityScores, Ability(..))
 import Style exposing (Style)
 import Utils exposing (toModString, parseInt)
 
@@ -67,13 +67,13 @@ viewAbility : AbilityScores -> Ability -> Html Msg
 viewAbility model ability =
     let
         name =
-            Model.Abilities.name ability
+            Abilities.name ability
 
         score =
-            Model.Abilities.value model ability
+            Abilities.value model ability
 
         modifier =
-            Model.Abilities.modifier model ability
+            Abilities.modifier model ability
     in
         div
             [ style abilityStyle ]
@@ -98,10 +98,4 @@ viewAbility model ability =
 view : AbilityScores -> Html Msg
 view abilities =
     div [ style mainStyle ]
-        [ viewAbility abilities Strength
-        , viewAbility abilities Dexterity
-        , viewAbility abilities Constitution
-        , viewAbility abilities Intelligence
-        , viewAbility abilities Wisdom
-        , viewAbility abilities Charisma
-        ]
+        (Abilities.map <| viewAbility abilities)

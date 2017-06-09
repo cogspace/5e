@@ -75,12 +75,8 @@ viewProf model ability =
 view : Model -> Html Msg
 view model =
     div [ style mainStyle ]
-        [ viewProf model Strength
-        , viewProf model Dexterity
-        , viewProf model Constitution
-        , viewProf model Intelligence
-        , viewProf model Wisdom
-        , viewProf model Charisma
-        , div [ style titleStyle ]
-            [ text "SAVING THROWS" ]
-        ]
+        (Abilities.map (viewProf model)
+            ++ [ div [ style titleStyle ]
+                    [ text "SAVING THROWS" ]
+               ]
+        )
