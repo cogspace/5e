@@ -27,8 +27,7 @@ view model =
             [ View.ProfBonus.view model.profBonus
             , View.SavingThrows.view model
             , View.Skills.view model
-            , View.PassivePerception.view
-                model.abilities.wis
+            , View.PassivePerception.view model
             ]
         ]
 

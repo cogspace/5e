@@ -3,6 +3,8 @@ module View.PassivePerception exposing (view)
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (type_, value, style)
 import Model.Main exposing (Model, Msg(..))
+import Model.Abilities as Abilities exposing (Ability(Wisdom))
+import Model.Skills as Skills exposing (Skill(Perception))
 import Style exposing (Style)
 
 
@@ -40,12 +42,31 @@ inputStyle =
     ]
 
 
-view : Int -> Html Msg
-view passivePerception =
-    div
-        [ style mainStyle ]
-        [ text "PASSIVE WISDOM (PERCEPTION)"
-        , div
-            [ style inputStyle ]
-            [ text (toString passivePerception) ]
-        ]
+view : Model -> Html Msg
+view model =
+    let
+        prof =
+            model.skillProfs
+                |> Skills.get Perception
+
+        profBonus =
+            if prof then
+                model.profBonus
+            else
+                0
+
+        mod =
+            Abilities.modifier
+                model.abilities
+                Wisdom
+
+        passivePerception =
+            10 + mod + profBonus
+    in
+        div
+            [ style mainStyle ]
+            [ text "PASSIVE WISDOM (PERCEPTION)"
+            , div
+                [ style inputStyle ]
+                [ text (toString passivePerception) ]
+            ]
