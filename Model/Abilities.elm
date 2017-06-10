@@ -1,18 +1,16 @@
 module Model.Abilities
     exposing
-        ( Abilities
+        ( Ability(..)
+        , Abilities
         , AbilityScores
         , SaveProfs
-        , Ability(..)
         , abilities
         , map
         , all
-        , zero
-        , base
+        , get
+        , set
         , name
-        , value
         , modifier
-        , update
         )
 
 
@@ -70,19 +68,11 @@ all a =
     }
 
 
-zero : AbilityScores
-zero =
-    all 0
-
-
-base : AbilityScores
-base =
-    all 8
-
-
 modifier : AbilityScores -> Ability -> Int
 modifier abilities ability =
-    value abilities ability |> mod
+    abilities
+        |> get ability
+        |> mod
 
 
 mod : Int -> Int
@@ -90,8 +80,8 @@ mod attr =
     attr // 2 - 5
 
 
-value : Abilities a -> Ability -> a
-value model ability =
+get : Ability -> Abilities a -> a
+get ability model =
     case ability of
         Strength ->
             model.str
@@ -116,26 +106,26 @@ name : Ability -> String
 name ability =
     case ability of
         Strength ->
-            "strength"
+            "Strength"
 
         Dexterity ->
-            "dexterity"
+            "Dexterity"
 
         Constitution ->
-            "constitution"
+            "Constitution"
 
         Intelligence ->
-            "intelligence"
+            "Intelligence"
 
         Wisdom ->
-            "wisdom"
+            "Wisdom"
 
         Charisma ->
-            "charisma"
+            "Charisma"
 
 
-update : Abilities a -> Ability -> a -> Abilities a
-update abilities ability val =
+set : Ability -> a -> Abilities a -> Abilities a
+set ability val abilities =
     case ability of
         Strength ->
             { abilities | str = val }

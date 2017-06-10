@@ -13,9 +13,10 @@ mainStyle : Style
 mainStyle =
     [ ( "display", "inline-block" )
     , ( "background-color", "#ccc" )
+    , ( "padding-top", "6px" )
+    , ( "padding-bottom", "6px" )
     , ( "border-radius", "8px" )
-    , ( "border-color", "gray" )
-    , ( "border-style", "double" )
+    , ( "border", "4px double white" )
     , ( "margin", "5px" )
     ]
 
@@ -70,7 +71,7 @@ viewAbility model ability =
             Abilities.name ability
 
         score =
-            Abilities.value model ability
+            model |> Abilities.get ability
 
         modifier =
             Abilities.modifier model ability

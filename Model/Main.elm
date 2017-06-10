@@ -9,10 +9,15 @@ module Model.Main
 
 import Model.Abilities as Abilities
     exposing
-        ( AbilityScores
+        ( Ability
+        , AbilityScores
         , SaveProfs
-        , Ability
         , Abilities
+        )
+import Model.Skills as Skills
+    exposing
+        ( Skill
+        , SkillProfs
         )
 
 
@@ -38,6 +43,7 @@ type alias Model =
     , profBonus : Int
     , abilities : AbilityScores
     , saveProfs : SaveProfs
+    , skillProfs : SkillProfs
     }
 
 
@@ -48,8 +54,9 @@ model =
     , race = Human
     , class = Fighter
     , profBonus = 1
-    , abilities = Abilities.base
+    , abilities = (Abilities.all 8)
     , saveProfs = (Abilities.all False)
+    , skillProfs = (Skills.all False)
     }
 
 
@@ -73,33 +80,42 @@ type Msg
     = ChangeAbility Ability Int
     | ChangeProf Int
     | ToggleSaveProf Ability
+    | ToggleSkillProf Skill
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         ChangeAbility ability val ->
-            let
-                old =
+            { model
+                | abilities =
                     model.abilities
-
-                new =
-                    Abilities.update old ability val
-            in
-                { model | abilities = new }
+                        |> Abilities.set ability val
+            }
 
         ChangeProf val ->
             { model | profBonus = val }
 
         ToggleSaveProf ability ->
             let
-                old =
-                    model.saveProfs
-
                 prof =
-                    Abilities.value old ability
-
-                new =
-                    Abilities.update old ability (not prof)
+                    model.saveProfs
+                        |> Abilities.get ability
             in
-                { model | saveProfs = new }
+                { model
+                    | saveProfs =
+                        model.saveProfs
+                            |> Abilities.set ability (not prof)
+                }
+
+        ToggleSkillProf skill ->
+            let
+                prof =
+                    model.skillProfs
+                        |> Skills.get skill
+            in
+                { model
+                    | skillProfs =
+                        model.skillProfs
+                            |> Skills.set skill (not prof)
+                }

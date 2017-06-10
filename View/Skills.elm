@@ -1,10 +1,11 @@
-module View.SavingThrows exposing (view)
+module View.Skills exposing (view)
 
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (type_, style, checked)
 import Html.Events exposing (onClick)
 import Model.Main exposing (Model, Msg(..))
-import Model.Abilities as Abilities exposing (Ability)
+import Model.Abilities as Abilities
+import Model.Skills as Skills exposing (Skill)
 import Style exposing (Style)
 import Utils exposing (toModString, checkbox)
 
@@ -38,17 +39,15 @@ titleStyle =
     ]
 
 
-viewProf : Model -> Ability -> Html Msg
-viewProf model ability =
+viewSkill : Model -> Skill -> Html Msg
+viewSkill model skill =
     let
-        { abilities, saveProfs } =
-            model
-
-        name =
-            Abilities.name ability
-
         prof =
-            saveProfs |> Abilities.get ability
+            model.skillProfs
+                |> Skills.get skill
+
+        ability =
+            Skills.ability skill
 
         profBonus =
             if prof then
@@ -57,26 +56,35 @@ viewProf model ability =
                 0
 
         mod =
-            Abilities.modifier abilities ability
+            Abilities.modifier model.abilities ability
                 + profBonus
+
+        name =
+            Skills.name skill
+
+        abilityName =
+            Abilities.name ability
     in
         div [ style profStyle ]
             [ checkbox
                 [ checked prof
-                , onClick (ToggleSaveProf ability)
+                , onClick (ToggleSkillProf skill)
                 ]
                 []
             , text (toModString mod)
             , text " "
             , text name
+            , text " ("
+            , text (String.slice 0 3 abilityName)
+            , text ")"
             ]
 
 
 view : Model -> Html Msg
 view model =
     div [ style mainStyle ]
-        (Abilities.map (viewProf model)
+        (Skills.map (viewSkill model)
             ++ [ div [ style titleStyle ]
-                    [ text "SAVING THROWS" ]
+                    [ text "SKILLS" ]
                ]
         )

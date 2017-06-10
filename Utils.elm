@@ -1,6 +1,5 @@
 module Utils exposing (..)
 
-import Char
 import Html exposing (Html, Attribute, input)
 import Html.Attributes exposing (type_)
 
@@ -18,16 +17,6 @@ toModString int =
         "+" ++ toString int
     else
         toString int
-
-
-toTitle : String -> String
-toTitle string =
-    case String.uncons string of
-        Just ( first, rest ) ->
-            String.cons (Char.toUpper first) rest
-
-        Nothing ->
-            ""
 
 
 checkbox : List (Attribute msg) -> List (Html msg) -> Html msg

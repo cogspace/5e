@@ -7,6 +7,8 @@ import Model.Main exposing (Msg, Model, model, update)
 import View.Abilities
 import View.ProfBonus
 import View.SavingThrows
+import View.Skills
+import View.PassivePerception
 
 
 columnStyle : Style
@@ -24,6 +26,9 @@ view model =
         , div [ style columnStyle ]
             [ View.ProfBonus.view model.profBonus
             , View.SavingThrows.view model
+            , View.Skills.view model
+            , View.PassivePerception.view
+                model.abilities.wis
             ]
         ]
 
