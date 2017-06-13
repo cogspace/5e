@@ -7,7 +7,6 @@ module Model.Main
         , update
         )
 
-import Set exposing (Set)
 import Model.Abilities as Abilities
     exposing
         ( Ability
@@ -20,6 +19,7 @@ import Model.Skills as Skills
         ( Skill
         , SkillProfs
         )
+import Profs
 
 
 type Race
@@ -45,10 +45,7 @@ type alias Model =
     , abilities : AbilityScores
     , saveProfs : SaveProfs
     , skillProfs : SkillProfs
-    , languages : Set String
-    , languageToAdd : String
-    , profs : Set String
-    , profToAdd : String
+    , profs : Profs.Model
     }
 
 
@@ -62,10 +59,7 @@ model =
     , abilities = (Abilities.all 8)
     , saveProfs = (Abilities.all False)
     , skillProfs = (Skills.all False)
-    , languages = Set.fromList [ "Common" ]
-    , languageToAdd = ""
-    , profs = Set.empty
-    , profToAdd = ""
+    , profs = Profs.model
     }
 
 
@@ -74,12 +68,7 @@ type Msg
     | ChangeProf Int
     | ToggleSaveProf Ability
     | ToggleSkillProf Skill
-    | ChangeLanguageToAdd String
-    | AddLanguage
-    | RemoveLanguage String
-    | ChangeProfToAdd String
-    | AddProf
-    | RemoveProf String
+    | ProfsMsg Profs.Msg
 
 
 update : Msg -> Model -> Model
@@ -119,44 +108,5 @@ update msg model =
             in
                 { model | skillProfs = new }
 
-        ChangeLanguageToAdd lang ->
-            { model | languageToAdd = lang }
-
-        AddLanguage ->
-            { model
-                | languages =
-                    if model.languageToAdd == "" then
-                        model.languages
-                    else
-                        model.languages
-                            |> Set.insert
-                                model.languageToAdd
-                , languageToAdd = ""
-            }
-
-        RemoveLanguage lang ->
-            { model
-                | languages =
-                    model.languages |> Set.remove lang
-            }
-
-        ChangeProfToAdd prof ->
-            { model | profToAdd = prof }
-
-        AddProf ->
-            { model
-                | profs =
-                    if model.profToAdd == "" then
-                        model.profs
-                    else
-                        model.profs
-                            |> Set.insert
-                                model.profToAdd
-                , profToAdd = ""
-            }
-
-        RemoveProf prof ->
-            { model
-                | profs =
-                    model.profs |> Set.remove prof
-            }
+        ProfsMsg m ->
+            { model | profs = model.profs |> Profs.update m }

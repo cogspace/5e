@@ -3,13 +3,13 @@ module Main exposing (..)
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (style)
 import Style exposing (Style)
-import Model.Main exposing (Msg, Model, model, update)
+import Profs
+import Model.Main exposing (Msg(..), Model, model, update)
 import View.Abilities
 import View.ProfBonus
 import View.SavingThrows
 import View.Skills
 import View.PassivePerception
-import View.Proficiencies
 
 
 columnStyle : Style
@@ -33,7 +33,7 @@ view model =
                 ]
             ]
         , div []
-            [ View.Proficiencies.view model
+            [ Profs.view ProfsMsg model.profs
             ]
         ]
 
