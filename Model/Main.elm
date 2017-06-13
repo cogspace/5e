@@ -7,6 +7,7 @@ module Model.Main
         , update
         )
 
+import Set exposing (Set)
 import Model.Abilities as Abilities
     exposing
         ( Ability
@@ -44,6 +45,10 @@ type alias Model =
     , abilities : AbilityScores
     , saveProfs : SaveProfs
     , skillProfs : SkillProfs
+    , languages : Set String
+    , languageToAdd : String
+    , profs : Set String
+    , profToAdd : String
     }
 
 
@@ -57,23 +62,11 @@ model =
     , abilities = (Abilities.all 8)
     , saveProfs = (Abilities.all False)
     , skillProfs = (Skills.all False)
+    , languages = Set.fromList [ "Common" ]
+    , languageToAdd = ""
+    , profs = Set.empty
+    , profToAdd = ""
     }
-
-
-(#|) : String -> Int -> Int
-(#|) str default =
-    let
-        n =
-            String.toInt str
-                |> Result.toMaybe
-                |> Maybe.withDefault default
-    in
-        if n < 0 then
-            0
-        else if n > 24 then
-            24
-        else
-            n
 
 
 type Msg
@@ -81,6 +74,12 @@ type Msg
     | ChangeProf Int
     | ToggleSaveProf Ability
     | ToggleSkillProf Skill
+    | ChangeLanguageToAdd String
+    | AddLanguage
+    | RemoveLanguage String
+    | ChangeProfToAdd String
+    | AddProf
+    | RemoveProf String
 
 
 update : Msg -> Model -> Model
@@ -101,21 +100,63 @@ update msg model =
                 prof =
                     model.saveProfs
                         |> Abilities.get ability
+
+                new =
+                    model.saveProfs
+                        |> Abilities.set ability (not prof)
             in
-                { model
-                    | saveProfs =
-                        model.saveProfs
-                            |> Abilities.set ability (not prof)
-                }
+                { model | saveProfs = new }
 
         ToggleSkillProf skill ->
             let
                 prof =
                     model.skillProfs
                         |> Skills.get skill
+
+                new =
+                    model.skillProfs
+                        |> Skills.set skill (not prof)
             in
-                { model
-                    | skillProfs =
-                        model.skillProfs
-                            |> Skills.set skill (not prof)
-                }
+                { model | skillProfs = new }
+
+        ChangeLanguageToAdd lang ->
+            { model | languageToAdd = lang }
+
+        AddLanguage ->
+            { model
+                | languages =
+                    if model.languageToAdd == "" then
+                        model.languages
+                    else
+                        model.languages
+                            |> Set.insert
+                                model.languageToAdd
+                , languageToAdd = ""
+            }
+
+        RemoveLanguage lang ->
+            { model
+                | languages =
+                    model.languages |> Set.remove lang
+            }
+
+        ChangeProfToAdd prof ->
+            { model | profToAdd = prof }
+
+        AddProf ->
+            { model
+                | profs =
+                    if model.profToAdd == "" then
+                        model.profs
+                    else
+                        model.profs
+                            |> Set.insert
+                                model.profToAdd
+                , profToAdd = ""
+            }
+
+        RemoveProf prof ->
+            { model
+                | profs =
+                    model.profs |> Set.remove prof
+            }

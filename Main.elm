@@ -9,6 +9,7 @@ import View.ProfBonus
 import View.SavingThrows
 import View.Skills
 import View.PassivePerception
+import View.Proficiencies
 
 
 columnStyle : Style
@@ -21,13 +22,18 @@ columnStyle =
 view : Model -> Html Msg
 view model =
     div [ style columnStyle ]
-        [ div [ style columnStyle ]
-            [ View.Abilities.view model.abilities ]
-        , div [ style columnStyle ]
-            [ View.ProfBonus.view model.profBonus
-            , View.SavingThrows.view model
-            , View.Skills.view model
-            , View.PassivePerception.view model
+        [ div []
+            [ div [ style columnStyle ]
+                [ View.Abilities.view model.abilities ]
+            , div [ style columnStyle ]
+                [ View.ProfBonus.view model.profBonus
+                , View.SavingThrows.view model
+                , View.Skills.view model
+                , View.PassivePerception.view model
+                ]
+            ]
+        , div []
+            [ View.Proficiencies.view model
             ]
         ]
 
