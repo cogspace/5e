@@ -1,10 +1,10 @@
 module View.PassivePerception exposing (view)
 
+import Dict
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (type_, value, style)
 import Model.Main exposing (Model, Msg(..))
 import Model.Abilities as Abilities exposing (Ability(Wisdom))
-import Model.Skills as Skills exposing (Skill(Perception))
 import Style exposing (Style)
 
 
@@ -47,7 +47,9 @@ view model =
     let
         prof =
             model.skillProfs
-                |> Skills.get Perception
+                |> Dict.fromList
+                |> Dict.get "Perception (Wis)"
+                |> Maybe.withDefault False
 
         profBonus =
             if prof then

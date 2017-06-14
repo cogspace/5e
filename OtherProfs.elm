@@ -1,4 +1,4 @@
-module Profs exposing (Model, Msg(..), model, view, update)
+module OtherProfs exposing (Model, Msg(..), model, view, update)
 
 import Set exposing (Set)
 import Html exposing (..)
@@ -55,7 +55,7 @@ updateProfs msg model =
             { model
                 | profs =
                     model.profs
-                        |> Set.remove model.toAdd
+                        |> Set.remove value
             }
 
 
@@ -126,23 +126,33 @@ languageStyle =
     ]
 
 
+viewProf : (String -> msg) -> String -> Html msg
+viewProf remove prof =
+    li [ style languageStyle ]
+        [ text prof
+        , text " "
+        , button [ onClick (remove prof) ]
+            [ text "X" ]
+        ]
+
+
 viewProfsGroup : (Msg -> msg) -> String -> (ProfsMsg -> Msg) -> ProfsModel -> Html msg
-viewProfsGroup msg title msgType model =
+viewProfsGroup msg title group model =
     div []
         [ div [ style languagesHeaderStyle ]
             [ text (title ++ ": ")
             , input
                 [ type_ "text"
                 , value model.toAdd
-                , onInput (msg << msgType << Change)
+                , onInput (msg << group << Change)
                 ]
                 []
-            , button [ onClick (msg (msgType Add)) ]
+            , button [ onClick (msg (group Add)) ]
                 [ text "Add" ]
             ]
         , model.profs
             |> Set.toList
-            |> List.map (viewProf (msg << msgType << Remove))
+            |> List.map (viewProf (msg << group << Remove))
             |> ul [ style languagesStyle ]
         ]
 
@@ -154,16 +164,6 @@ viewProfs msg model =
             |> viewProfsGroup msg "Proficiencies" Other
         , model.langs
             |> viewProfsGroup msg "Languages" Langs
-        ]
-
-
-viewProf : (String -> msg) -> String -> Html msg
-viewProf remove prof =
-    li [ style languageStyle ]
-        [ text prof
-        , text " "
-        , button [ onClick (remove prof) ]
-            [ text "X" ]
         ]
 
 

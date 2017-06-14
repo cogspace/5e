@@ -14,12 +14,42 @@ import Model.Abilities as Abilities
         , SaveProfs
         , Abilities
         )
-import Model.Skills as Skills
-    exposing
-        ( Skill
-        , SkillProfs
-        )
-import Profs
+import MainProfs
+import OtherProfs
+
+
+saves : List String
+saves =
+    [ "Strength"
+    , "Dexterity"
+    , "Constitution"
+    , "Intelligence"
+    , "Wisdom"
+    , "Charisma"
+    ]
+
+
+skills : List String
+skills =
+    [ "Acrobatics (Dex)"
+    , "Animal Handling (Wis)"
+    , "Arcana (Int)"
+    , "Athletics (Str)"
+    , "Deception (Cha)"
+    , "History (Int)"
+    , "Insight (Wis)"
+    , "Intimidation (Cha)"
+    , "Investigation (Int)"
+    , "Medicine (Wis)"
+    , "Nature (Int)"
+    , "Perception (Wis)"
+    , "Performance (Cha)"
+    , "Persuasion (Cha)"
+    , "Religion (Int)"
+    , "Sleight of Hand (Dex)"
+    , "Stealth (Dex)"
+    , "Survival (Wis)"
+    ]
 
 
 type Race
@@ -43,9 +73,9 @@ type alias Model =
     , class : Class
     , profBonus : Int
     , abilities : AbilityScores
-    , saveProfs : SaveProfs
-    , skillProfs : SkillProfs
-    , profs : Profs.Model
+    , saveProfs : MainProfs.Model
+    , skillProfs : MainProfs.Model
+    , otherProfs : OtherProfs.Model
     }
 
 
@@ -57,18 +87,18 @@ model =
     , class = Fighter
     , profBonus = 1
     , abilities = (Abilities.all 8)
-    , saveProfs = (Abilities.all False)
-    , skillProfs = (Skills.all False)
-    , profs = Profs.model
+    , saveProfs = MainProfs.model saves
+    , skillProfs = MainProfs.model skills
+    , otherProfs = OtherProfs.model
     }
 
 
 type Msg
     = ChangeAbility Ability Int
     | ChangeProf Int
-    | ToggleSaveProf Ability
-    | ToggleSkillProf Skill
-    | ProfsMsg Profs.Msg
+    | SaveProfsMsg MainProfs.Msg
+    | SkillProfsMsg MainProfs.Msg
+    | OtherProfsMsg OtherProfs.Msg
 
 
 update : Msg -> Model -> Model
@@ -84,29 +114,15 @@ update msg model =
         ChangeProf val ->
             { model | profBonus = val }
 
-        ToggleSaveProf ability ->
-            let
-                prof =
-                    model.saveProfs
-                        |> Abilities.get ability
+        SaveProfsMsg m ->
+            { model | saveProfs = model.saveProfs |> MainProfs.update m }
 
-                new =
-                    model.saveProfs
-                        |> Abilities.set ability (not prof)
-            in
-                { model | saveProfs = new }
+        SkillProfsMsg m ->
+            { model | skillProfs = model.skillProfs |> MainProfs.update m }
 
-        ToggleSkillProf skill ->
-            let
-                prof =
-                    model.skillProfs
-                        |> Skills.get skill
-
-                new =
-                    model.skillProfs
-                        |> Skills.set skill (not prof)
-            in
-                { model | skillProfs = new }
-
-        ProfsMsg m ->
-            { model | profs = model.profs |> Profs.update m }
+        OtherProfsMsg m ->
+            { model
+                | otherProfs =
+                    model.otherProfs
+                        |> OtherProfs.update m
+            }
